@@ -1,0 +1,30 @@
+# Ignorar archivos de configuración locales
+.env
+
+# Ignorar archivos generados por dependencias
+/node_modules
+/package-lock.json
+/yarn.lock
+
+# Ignorar archivos de registro
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Ignorar archivos de respaldo
+*.bak
+*.backup
+
+# Ignorar archivos de compilación
+/build
+
+# Ignorar archivos de caché
+/.cache
+
+# Ignorar archivos de configuración de editor
+.vscode/
+.idea/
+
+# Ignorar archivos específicos del servidor (puedes ajustar esto según tus necesidades)
+/backend/logs/
+/backend/dist/
