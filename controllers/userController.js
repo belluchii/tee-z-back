@@ -50,8 +50,8 @@ exports.createUser = async (req, res) => {
 // Controlador para actualizar un usuario por su ID
 exports.updateUser = async (req, res) => {
   try {
-    const updatedUser = await userService.updateUserById(
-      req.params.id,
+    const updatedUser = await userService.updateUserByEmail(
+      req.params.email,
       req.body
     );
     res.status(200).json(updatedUser);

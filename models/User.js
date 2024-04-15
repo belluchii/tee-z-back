@@ -12,6 +12,14 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  cart: {
+    type: [String],
+    default: [],
+  },
+  favs: {
+    type: [String],
+    default: [],
+  },
 });
 
 userSchema.pre("save", function (next) {

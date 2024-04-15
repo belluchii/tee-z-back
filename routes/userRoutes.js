@@ -15,7 +15,7 @@ router.post("/validate", userController.validatePassword);
 router.post("/", userController.createUser);
 
 // Ruta para actualizar un usuario por su ID
-router.put("/:id", userController.updateUser);
+router.put("/:email", userController.updateUser);
 
 // Ruta para eliminar un usuario por su ID
 router.delete("/:id", userController.deleteUser);

@@ -17,7 +17,7 @@ exports.validatePassword = async (email, password) => {
       throw new Error("Contraseña incorrecta");
     }
 
-    return { message: "Contraseña válida" };
+    return user;
   } catch (error) {
     throw new Error(
       "Error al validar la contraseña del usuario: " + error.message
@@ -30,7 +30,7 @@ exports.getUsers = async () => {
   try {
     return await User.find();
   } catch (error) {
-    throw new Error("Error al obtener los usuarios");
+    throw new Error("Error al obtener los usuarios" + error.message);
   }
 };
 
@@ -54,11 +54,12 @@ exports.createUser = async (userData) => {
 };
 
 // Función para actualizar un usuario por su ID
-exports.updateUserById = async (userId, userData) => {
+exports.updateUserByEmail = async (email, userData) => {
   try {
-    return await User.findByIdAndUpdate(userId, userData, { new: true });
+    // Buscar el usuario por su correo electrónico y actualizarlo
+    return await User.findOneAndUpdate({ email }, userData, { new: true });
   } catch (error) {
-    throw new Error("Error al actualizar el usuario por ID");
+    throw new Error("Error al actualizar el usuario por correo electrónico");
   }
 };
 
