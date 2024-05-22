@@ -16,6 +16,10 @@ const userSchema = new mongoose.Schema({
     type: [String],
     default: [],
   },
+  history: {
+    type: [String],
+    default: [],
+  },
   favs: {
     type: [String],
     default: [],

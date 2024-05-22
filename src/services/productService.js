@@ -9,6 +9,14 @@ exports.getAllProducts = async () => {
   }
 };
 
+exports.getByTag = async (tag) => {
+  try {
+    return await Product.find({ tags: { $in: [tag] } });
+  } catch (error) {
+    throw new Error("Error al obtener los productos");
+  }
+};
+
 // Obtener un producto
 exports.getOneProducts = async (name) => {
   try {

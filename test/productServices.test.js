@@ -3,6 +3,7 @@ const Product = require("../src/models/Product");
 //importa los servicios de productos
 const {
   getAllProducts,
+  getByTag,
   getOneProducts,
   createProduct,
   updateProduct,
@@ -17,12 +18,14 @@ const newProductData = {
   name: "ProductoTest",
   price: 50,
   description: "Descripción de prueba",
+  tags: ["tag1"],
 };
 
 // Datos actualizados del producto
 const updatedProductData = {
   price: 60,
   description: "Nueva descripción de prueba",
+  tags: ["tag3", "tag4"],
 };
 
 // ID del producto a eliminar
@@ -61,9 +64,29 @@ describe("Product Services", () => {
       // Happy path: Obtener todos los productos
 
       const products = await getAllProducts();
-
       expect(products).toBeDefined();
       expect(products.length).toBe(1);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  it("should return an array whith the products by tag", async () => {
+    try {
+      // Happy path: Obtener todos los productos por tag
+
+      const products = await getByTag("tag1");
+      expect(products).toBeDefined();
+      expect(products.length).toBe(1);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  it("should return null when trying to find a product by non-existing tag", async () => {
+    try {
+      // Bad Path: Obtener todos los productos por tag cuando no hay ninguno
+
+      const products = await getByTag("nonexistingtag");
+      expect(products).toBeNull();
     } catch (error) {
       console.error(error);
     }
@@ -94,6 +117,18 @@ describe("Product Services", () => {
       expect(updatedProduct).toBeDefined();
       expect(updatedProduct.price).toBe(updatedProductData.price);
       expect(updatedProduct.description).toBe(updatedProductData.description);
+    } catch (error) {
+      console.error(error);
+    }
+  });
+  it("should return error when trying to update stock below zero product", async () => {
+    try {
+      // Bad Path: Actualizar un producto que no existe
+      const updatedProduct = await updateProduct("nonexistingID", {
+        stock: -1,
+      });
+
+      expect(updatedProduct).toBeNull();
     } catch (error) {
       console.error(error);
     }

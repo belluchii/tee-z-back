@@ -10,6 +10,17 @@ exports.getAllProducts = async (req, res) => {
   }
 };
 
+// Controlador para obtener todos los productos con una tag
+exports.getByTag = async (req, res) => {
+  try {
+    const { tag } = req.params;
+    const products = await productService.getByTag(tag);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Controlador para obtener un producto
 
 exports.getOneProducts = async (req, res) => {
