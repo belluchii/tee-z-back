@@ -1,9 +1,10 @@
 const productService = require("../services/productService");
 
 // Controlador para obtener todos los productos
-exports.getAllProducts = async (_req, res) => {
+exports.getAllProducts = async (req, res) => {
   try {
-    const products = await productService.getAllProducts();
+    const { limit, page } = req.params;
+    const products = await productService.getAllProducts(limit, page);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -13,8 +14,8 @@ exports.getAllProducts = async (_req, res) => {
 // Controlador para obtener todos los productos con una tag
 exports.getByTag = async (req, res) => {
   try {
-    const { tag } = req.params;
-    const products = await productService.getByTag(tag);
+    const { tag, limit, page } = req.params;
+    const products = await productService.getByTag(tag, limit, page);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -31,13 +32,25 @@ exports.getTags = async (_req, res) => {
   }
 };
 
+// Controlador para buscar productos
+
+exports.searchProducts = async (req, res) => {
+  try {
+    const { name, page, limit } = req.params;
+    const product = await productService.searchProducts(name, page, limit);
+    res.json(product);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
 // Controlador para obtener un producto
 
-exports.getOneProducts = async (req, res) => {
+exports.getOneProduct = async (req, res) => {
   try {
-    const { name } = req.params;
-    const products = await productService.getOneProducts(name);
-    res.json(products);
+    const { id } = req.params;
+    const product = await productService.getOneProduct(id);
+    res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }

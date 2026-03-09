@@ -1,20 +1,46 @@
 const Product = require("../models/Product");
 
 // Obtener todos los productos
-exports.getAllProducts = async () => {
+exports.getAllProducts = async (page = 1, limit = 12) => {
   try {
-    return await Product.find();
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      Product.find().skip(skip).limit(limit),
+      Product.countDocuments(),
+    ]);
+
+    return {
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   } catch (error) {
     throw new Error("Error al obtener los productos");
   }
 };
 
 // Obtener productos por tag
-exports.getByTag = async (tag) => {
+exports.getByTag = async (tag, page = 1, limit = 12) => {
   try {
-    return await Product.find({ tags: { $in: [tag] } });
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      Product.find({ tags: { $in: [tag] } })
+        .skip(skip)
+        .limit(limit),
+      Product.countDocuments({ tags: { $in: [tag] } }),
+    ]);
+
+    return {
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
   } catch (error) {
-    throw new Error("Error al obtener los productos");
+    throw new Error("Error al obtener los productos por tag");
   }
 };
 
@@ -28,10 +54,33 @@ exports.getTags = async () => {
   }
 };
 
-// Obtener un producto
-exports.getOneProducts = async (name) => {
+// Buscar productos
+exports.searchProducts = async (name, page = 1, limit = 12) => {
   try {
-    return await Product.findOne({ name });
+    const query = name ? { name: { $regex: name, $options: "i" } } : {};
+
+    const skip = (page - 1) * limit;
+
+    const [products, total] = await Promise.all([
+      Product.find(query).skip(skip).limit(limit),
+      Product.countDocuments(query),
+    ]);
+
+    return {
+      products,
+      total,
+      page,
+      totalPages: Math.ceil(total / limit),
+    };
+  } catch (error) {
+    throw new Error("Error al buscar productos");
+  }
+};
+
+// Obtener un producto
+exports.getOneProduct = async (id) => {
+  try {
+    return await Product.findById(id);
   } catch (error) {
     throw new Error("Error al obtener los productos");
   }

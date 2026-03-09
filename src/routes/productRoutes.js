@@ -11,9 +11,11 @@ router.get("/tags/:tag", productController.getByTag);
 // Ruta para obtener tags
 router.get("/tags", productController.getTags);
 
-// Ruta para obtener un producto
+// Ruta para buscar products
+router.get("/search", productController.searchProducts);
 
-router.get("/:name", productController.getOneProducts);
+// Ruta para obtener un producto
+router.get("/:id", productController.getOneProduct);
 
 // Ruta para crear un nuevo producto
 router.post("/", productController.createProduct);
