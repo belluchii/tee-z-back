@@ -8,6 +8,9 @@ router.get("/", productController.getAllProducts);
 // Ruta para obtener productos por tag
 router.get("/tags/:tag", productController.getByTag);
 
+// Ruta para obtener tags
+router.get("/tags", productController.getTags);
+
 // Ruta para obtener un producto
 
 router.get("/:name", productController.getOneProducts);

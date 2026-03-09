@@ -28,3 +28,6 @@ yarn-error.log*
 # Ignorar archivos específicos del servidor (puedes ajustar esto según tus necesidades)
 /backend/logs/
 /backend/dist/
+
+/src/seed
+/src/seed/*

@@ -1,7 +1,7 @@
 const productService = require("../services/productService");
 
 // Controlador para obtener todos los productos
-exports.getAllProducts = async (req, res) => {
+exports.getAllProducts = async (_req, res) => {
   try {
     const products = await productService.getAllProducts();
     res.json(products);
@@ -15,6 +15,16 @@ exports.getByTag = async (req, res) => {
   try {
     const { tag } = req.params;
     const products = await productService.getByTag(tag);
+    res.json(products);
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
+
+// Controlador para obtener todos los tags
+exports.getTags = async (_req, res) => {
+  try {
+    const products = await productService.getTags();
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
@@ -49,7 +59,7 @@ exports.updateProduct = async (req, res) => {
   try {
     const updatedProduct = await productService.updateProduct(
       productId,
-      req.body
+      req.body,
     );
     res.json(updatedProduct);
   } catch (error) {

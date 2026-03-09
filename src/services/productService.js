@@ -9,11 +9,22 @@ exports.getAllProducts = async () => {
   }
 };
 
+// Obtener productos por tag
 exports.getByTag = async (tag) => {
   try {
     return await Product.find({ tags: { $in: [tag] } });
   } catch (error) {
     throw new Error("Error al obtener los productos");
+  }
+};
+
+// Obtener tags
+exports.getTags = async () => {
+  try {
+    const tags = await Product.distinct("tags");
+    return tags;
+  } catch (error) {
+    throw new Error("Error al obtener los tags");
   }
 };
 
