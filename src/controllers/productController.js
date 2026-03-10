@@ -2,12 +2,14 @@ const productService = require("../services/productService");
 
 exports.getAllProducts = async (req, res) => {
   try {
-    const { page, limit, tags, color } = req.query;
+    const { page, limit, tags, color, priceMin, priceMax } = req.query;
     const products = await productService.getAllProducts(
       page,
       limit,
       tags,
       color,
+      priceMin,
+      priceMax,
     );
     res.json(products);
   } catch (error) {
@@ -37,13 +39,15 @@ exports.getTags = async (_req, res) => {
 
 exports.searchProducts = async (req, res) => {
   try {
-    const { name, page, limit, tags, color } = req.query;
+    const { name, page, limit, tags, color, priceMin, priceMax } = req.query;
     const product = await productService.searchProducts(
       name,
       page,
       limit,
       tags,
       color,
+      priceMin,
+      priceMax,
     );
     res.json(product);
   } catch (error) {

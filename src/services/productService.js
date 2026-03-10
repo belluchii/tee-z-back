@@ -1,6 +1,13 @@
 const Product = require("../models/Product");
 
-exports.getAllProducts = async (page = 1, limit = 12, tags, color) => {
+exports.getAllProducts = async (
+  page = 1,
+  limit = 12,
+  tags,
+  color,
+  priceMin,
+  priceMax,
+) => {
   try {
     const query = {};
 
@@ -16,6 +23,13 @@ exports.getAllProducts = async (page = 1, limit = 12, tags, color) => {
       if (parsedColors.length) {
         query.color = { $in: parsedColors.map((c) => c.toLowerCase()) };
       }
+    }
+
+    if (priceMin || priceMax) {
+      query.price = {
+        ...(priceMin && { $gte: Number(priceMin) }),
+        ...(priceMax && { $lte: Number(priceMax) }),
+      };
     }
 
     const skip = (page - 1) * limit;
@@ -53,7 +67,15 @@ exports.getTags = async () => {
   }
 };
 
-exports.searchProducts = async (name, page = 1, limit = 12, tags, color) => {
+exports.searchProducts = async (
+  name,
+  page = 1,
+  limit = 12,
+  tags,
+  color,
+  priceMin,
+  priceMax,
+) => {
   try {
     const query = {};
 
@@ -73,6 +95,13 @@ exports.searchProducts = async (name, page = 1, limit = 12, tags, color) => {
       if (parsedColors.length) {
         query.color = { $in: parsedColors.map((c) => c.toLowerCase()) };
       }
+    }
+
+    if (priceMin || priceMax) {
+      query.price = {
+        ...(priceMin && { $gte: Number(priceMin) }),
+        ...(priceMax && { $lte: Number(priceMax) }),
+      };
     }
 
     const skip = (page - 1) * limit;
