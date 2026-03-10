@@ -21,7 +21,7 @@ exports.getByTag = async (req, res) => {
   try {
     const { tag } = req.params;
     const { limit, page } = req.query;
-    const products = await productService.getByTag(tag, limit, page);
+    const products = await productService.getByTag(tag, page, limit);
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
