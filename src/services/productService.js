@@ -1,83 +1,92 @@
 const Product = require("../models/Product");
 
-// Obtener todos los productos
-exports.getAllProducts = async (page = 1, limit = 12) => {
+exports.getAllProducts = async (page = 1, limit = 12, tags, color) => {
   try {
-    const skip = (page - 1) * limit;
+    const query = {};
 
+    if (tags) {
+      const parsedTags = JSON.parse(tags);
+      if (parsedTags.length) {
+        query.tags = { $in: parsedTags.map((t) => t.toLowerCase()) };
+      }
+    }
+
+    if (color) {
+      const parsedColors = JSON.parse(color);
+      if (parsedColors.length) {
+        query.color = { $in: parsedColors.map((c) => c.toLowerCase()) };
+      }
+    }
+
+    const skip = (page - 1) * limit;
     const [products, total] = await Promise.all([
-      Product.find().skip(skip).limit(limit),
-      Product.countDocuments(),
+      Product.find(query).skip(skip).limit(limit),
+      Product.countDocuments(query),
     ]);
 
-    return {
-      products,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    };
+    return { products, total, page, totalPages: Math.ceil(total / limit) };
   } catch (error) {
     throw new Error("Error al obtener los productos");
   }
 };
 
-// Obtener productos por tag
 exports.getByTag = async (tag, page = 1, limit = 12) => {
   try {
     const skip = (page - 1) * limit;
-
     const [products, total] = await Promise.all([
       Product.find({ tags: { $in: [tag] } })
         .skip(skip)
         .limit(limit),
       Product.countDocuments({ tags: { $in: [tag] } }),
     ]);
-
-    return {
-      products,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    };
+    return { products, total, page, totalPages: Math.ceil(total / limit) };
   } catch (error) {
     throw new Error("Error al obtener los productos por tag");
   }
 };
 
-// Obtener tags
 exports.getTags = async () => {
   try {
-    const tags = await Product.distinct("tags");
-    return tags;
+    return await Product.distinct("tags");
   } catch (error) {
     throw new Error("Error al obtener los tags");
   }
 };
 
-// Buscar productos
-exports.searchProducts = async (name, page = 1, limit = 12) => {
+exports.searchProducts = async (name, page = 1, limit = 12, tags, color) => {
   try {
-    const query = name ? { name: { $regex: name, $options: "i" } } : {};
+    const query = {};
+
+    if (name) {
+      query.name = { $regex: name, $options: "i" };
+    }
+
+    if (tags) {
+      const parsedTags = JSON.parse(tags);
+      if (parsedTags.length) {
+        query.tags = { $in: parsedTags.map((t) => t.toLowerCase()) };
+      }
+    }
+
+    if (color) {
+      const parsedColors = JSON.parse(color);
+      if (parsedColors.length) {
+        query.color = { $in: parsedColors.map((c) => c.toLowerCase()) };
+      }
+    }
 
     const skip = (page - 1) * limit;
-
     const [products, total] = await Promise.all([
       Product.find(query).skip(skip).limit(limit),
       Product.countDocuments(query),
     ]);
 
-    return {
-      products,
-      total,
-      page,
-      totalPages: Math.ceil(total / limit),
-    };
+    return { products, total, page, totalPages: Math.ceil(total / limit) };
   } catch (error) {
     throw new Error("Error al buscar productos");
   }
 };
 
-// Obtener un producto
 exports.getOneProduct = async (id) => {
   try {
     return await Product.findById(id);
@@ -86,7 +95,6 @@ exports.getOneProduct = async (id) => {
   }
 };
 
-// Crear un nuevo producto
 exports.createProduct = async (productData) => {
   try {
     return await Product.create(productData);
@@ -95,7 +103,6 @@ exports.createProduct = async (productData) => {
   }
 };
 
-// Actualizar un producto existente
 exports.updateProduct = async (productId, newData) => {
   try {
     return await Product.findByIdAndUpdate(productId, newData, { new: true });
@@ -104,7 +111,6 @@ exports.updateProduct = async (productId, newData) => {
   }
 };
 
-// Eliminar un producto existente
 exports.deleteProduct = async (productId) => {
   try {
     return await Product.findByIdAndDelete(productId);

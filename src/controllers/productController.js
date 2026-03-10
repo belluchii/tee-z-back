@@ -1,20 +1,24 @@
 const productService = require("../services/productService");
 
-// Controlador para obtener todos los productos
 exports.getAllProducts = async (req, res) => {
   try {
-    const { limit, page } = req.params;
-    const products = await productService.getAllProducts(limit, page);
+    const { page, limit, tags, color } = req.query;
+    const products = await productService.getAllProducts(
+      page,
+      limit,
+      tags,
+      color,
+    );
     res.json(products);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
 
-// Controlador para obtener todos los productos con una tag
 exports.getByTag = async (req, res) => {
   try {
-    const { tag, limit, page } = req.params;
+    const { tag } = req.params;
+    const { limit, page } = req.query;
     const products = await productService.getByTag(tag, limit, page);
     res.json(products);
   } catch (error) {
@@ -22,7 +26,6 @@ exports.getByTag = async (req, res) => {
   }
 };
 
-// Controlador para obtener todos los tags
 exports.getTags = async (_req, res) => {
   try {
     const products = await productService.getTags();
@@ -32,19 +35,21 @@ exports.getTags = async (_req, res) => {
   }
 };
 
-// Controlador para buscar productos
-
 exports.searchProducts = async (req, res) => {
   try {
-    const { name, page, limit } = req.params;
-    const product = await productService.searchProducts(name, page, limit);
+    const { name, page, limit, tags, color } = req.query;
+    const product = await productService.searchProducts(
+      name,
+      page,
+      limit,
+      tags,
+      color,
+    );
     res.json(product);
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
-
-// Controlador para obtener un producto
 
 exports.getOneProduct = async (req, res) => {
   try {
@@ -56,7 +61,6 @@ exports.getOneProduct = async (req, res) => {
   }
 };
 
-// Controlador para crear un nuevo producto
 exports.createProduct = async (req, res) => {
   try {
     const newProduct = await productService.createProduct(req.body);
@@ -66,7 +70,6 @@ exports.createProduct = async (req, res) => {
   }
 };
 
-// Controlador para actualizar un producto existente
 exports.updateProduct = async (req, res) => {
   const productId = req.params.id;
   try {
@@ -80,7 +83,6 @@ exports.updateProduct = async (req, res) => {
   }
 };
 
-// Controlador para eliminar un producto existente
 exports.deleteProduct = async (req, res) => {
   const productId = req.params.id;
   try {
