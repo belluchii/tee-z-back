@@ -1,3 +1,5 @@
+const Product = require("../models/Product");
+
 const safeParse = (str) => {
   try {
     return JSON.parse(str);
