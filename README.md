@@ -1,81 +1,80 @@
-Backend Tee-z
-Proyecto con fines de estudio conectado al portfolio de Valentin Berger.
+# Tee-Z — Backend
 
-Este es el backend del proyecto de ecommerce para la venta de remeras. El backend proporciona servicios para gestionar productos, usuarios, autenticación y busqueda.
+API REST del ecommerce de remeras. Gestiona productos, usuarios, autenticación y búsqueda.
 
-Características
+🔗 [Demo en vivo](https://tee-z.netlify.app/) · [Frontend](https://github.com/belluchii/tee-z-front)
 
-Productos: Gestión de productos, incluyendo la creación, actualización y eliminación de remeras.
+## ¿Qué es?
 
-Usuarios: Registro, inicio de sesión y gestión de cuentas de usuario.
+Backend del ecommerce Tee-Z. Expone los endpoints para la gestión de productos, registro e inicio de sesión de usuarios, autenticación con JWT y búsqueda de productos.
 
-Autenticación: JSON Web Tokens (JWT) para autenticación de usuarios.
+## Funcionalidades
 
-Busqueda: Busqueda de usuarios y productos.
+- **Productos** — Crear, actualizar, eliminar y buscar remeras
+- **Usuarios** — Registro, inicio de sesión y gestión de cuentas
+- **Autenticación** — JWT para proteger rutas privadas
+- **Búsqueda** — Búsqueda de productos y usuarios
 
-Tecnologías Utilizadas
+## Tech Stack
 
-Backend: Node.js, Express.js, MongoDB, Mongoose.
+- **Runtime:** Node.js
+- **Framework:** Express.js
+- **Base de datos:** MongoDB (Mongoose)
+- **Autenticación:** JWT
 
-Autenticación: JSON Web Tokens (JWT).
+## Estructura del proyecto
 
+```
+├── src/
+│   ├── controllers/
+│   ├── models/
+│   ├── routes/
+│   └── ...
+├── test/
+└── package.json
+```
 
-Instalación
-Sigue estos pasos para configurar y ejecutar el backend del proyecto en tu entorno local.
+## Requisitos
 
-Prerrequisitos
+- Node.js >= 18.x
+- MongoDB
 
-Node.js (versión 18 o superior)
+## Instalación
 
-MongoDB (en ejecución localmente o una base de datos en la nube)
+1. Clonar el repositorio:
 
-
-Clona el repositorio del backend en un directorio.
-
-git clone https://github.com/belluchii/tee-z-back
-
+```bash
+git clone https://github.com/belluchii/tee-z-back.git
 cd tee-z-back
+```
 
+2. Instalar dependencias:
 
-Instala las dependencias:
-
+```bash
 npm install
+```
 
-Configurar variables de entorno
+3. Crear un archivo `.env`:
 
-Crea un archivo .env en el directorio backend con el siguiente contenido:
+```env
+MONGO_URL=mongodb://localhost:27017/tee-z
+```
 
-MONGO_URL= Tu-MONGO_URL
+4. Iniciar el servidor:
 
-Inicia el servidor:
-
+```bash
 npm start
+```
 
+La API estará disponible en `http://localhost:3001`.
 
-Uso
+## Scripts disponibles
 
-Los endpoints están disponibles en http://localhost:3001.
+| Comando | Descripción |
+|---|---|
+| `npm start` | Inicia el servidor |
+| `npm test` | Ejecuta los tests |
 
-Se pueden utilizar herramientas como Postman o Insomnia para probar los endpoints.
+## Repositorios relacionados
 
-
-Contribución
-
-¡Contribuciones son bienvenidas! Por favor, sigue los siguientes pasos para contribuir:
-
-Haz un fork del repositorio.
-
-Crea una nueva rama (git checkout -b feature/nueva-funcionalidad).
-
-Realiza tus cambios.
-
-Haz un commit de tus cambios (git commit -am 'Agrega nueva funcionalidad').
-
-Haz un push a la rama (git push origin feature/nueva-funcionalidad).
-
-Abre un Pull Request.
-
-Licencia
-
-Este proyecto está bajo la licencia MIT. Consulta el archivo LICENSE para más detalles.
-
+- [tee-z-front](https://github.com/belluchii/tee-z-front) — Frontend con React.js
