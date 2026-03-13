@@ -27,11 +27,15 @@ Backend del ecommerce Tee-Z. Expone los endpoints para la gestión de productos,
 ```
 ├── src/
 │   ├── controllers/
+│   ├── db/
 │   ├── models/
 │   ├── routes/
-│   └── ...
+│   ├── services/
+│   └── App.js
 ├── test/
-└── package.json
+├── .gitignore
+├── package.json
+└── README.md
 ```
 
 ## Requisitos
