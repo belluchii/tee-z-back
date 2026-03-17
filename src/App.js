@@ -9,6 +9,9 @@ const app = express();
 app.use(cors());
 app.use(express.json());
 app.use("/api", router);
+app.get("/", (req, res) => {
+  res.json({ status: "ok", message: "Tee-Z API running" });
+});
 
 if (require.main === module) {
   db().then(() => {
