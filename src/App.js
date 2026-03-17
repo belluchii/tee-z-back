@@ -10,9 +10,12 @@ app.use(cors());
 app.use(express.json());
 app.use("/api", router);
 
-app.listen(3001, () => {
-  console.log("server escuchandose en el puerto 3001");
-  db();
-});
+if (require.main === module) {
+  db().then(() => {
+    app.listen(3001, () => {
+      console.log("server escuchandose en el puerto 3001");
+    });
+  });
+}
 
 module.exports = app;
